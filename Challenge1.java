@@ -1,6 +1,5 @@
 import java.util.*;
-
-
+import java.util.concurrent.*;
 
 
 interface SongCache {
@@ -28,11 +27,11 @@ interface SongCache {
 class SongCacheImpl implements SongCache{
 
     //Private Data members
-    private HashMap<String, Integer> hm;
+    private ConcurrentHashMap<String, Integer> hm;
 
     //Constructor
     SongCacheImpl(){
-        hm = new HashMap<String, Integer>();
+        hm = new ConcurrentHashMap<String, Integer>();
     }
 
     /**
@@ -47,7 +46,8 @@ class SongCacheImpl implements SongCache{
             throw new IllegalArgumentException("Song cannot be played negative times.");
         }
 
-        hm.put(songId, hm.getOrDefault(songId, 0) + numPlays);
+        hm.computeIfAbsent(songId, k -> (0));
+        hm.computeIfPresent(songId, (k, v)-> v + 1);
     }
 
     /**
