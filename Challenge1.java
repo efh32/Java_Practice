@@ -47,7 +47,7 @@ class SongCacheImpl implements SongCache{
         }
 
         hm.computeIfAbsent(songId, k -> (0));
-        hm.computeIfPresent(songId, (k, v)-> v + 1);
+        hm.computeIfPresent(songId, (k, v)-> v + numPlays);
     }
 
     /**
