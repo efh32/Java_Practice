@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "com.BakeryPackage.CakeList")
 @Data
-public class CakeList {
+public class PieList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -14,17 +14,17 @@ public class CakeList {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "primaryIngredient")
+    private String primaryIngredient;
 
 
-    public CakeList() {
+    public PieList() {
     }
 
-    public CakeList(String id, String name, String description){
+    public PieList(String id, String name, String primaryIngredient){
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.primaryIngredient = primaryIngredient;
     }
 
     public String getId() {
@@ -43,13 +43,15 @@ public class CakeList {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPrimaryIngredient() {
+        return primaryIngredient;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String primaryIngredient) {
+        this.primaryIngredient = primaryIngredient;
     }
 
 
 }
+
+

@@ -1,16 +1,25 @@
-CREATE DATABASE IF NOT EXISTS Bakery;
+-- Database: Bakery
 
-USE Bakery;
+-- DROP DATABASE IF EXISTS "Bakery";
+
+CREATE DATABASE "Bakery"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'C'
+    LC_CTYPE = 'C'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+	
 
 CREATE TABLE CakeList (
-  `cake_id` varchar(45) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `description` varchar(90) NOT NULL,
-  primary key(`cake_id`)
+	cake_id varchar(45) Primary Key NOT NULL,
+  	cake_name varchar(45) NOT NULL,
+  	description varchar(90) NOT NULL
 );
 
 INSERT INTO 
-	CakeList (cake_id, name, description)
+	CakeList (cake_id, cake_name, description)
 VALUES 
 	('CID-00001', 'German Chocolate Cake', 'layered chocolate cake filled and topped with a coconut-pecan frosting'),
 	('CID-00002', 'Neapolitan Cake', 'cake with vanilla, chocolate and strawberry layer'),
@@ -19,15 +28,14 @@ VALUES
 SELECT * FROM CakeList;
 
 CREATE TABLE PieList (
-	`pie_id` varchar(45) NOT NULL,
-    `name` varchar(45) NOT NULL,
-	`primary_ingredient` varchar(90) NOT NULL,
-    primary key(`pie_id`)
+	pie_id varchar(45) PRIMARY KEY NOT NULL,
+    pie_name varchar(45) NOT NULL,
+	primary_ingredient varchar(90) NOT NULL
 );
 
 
 INSERT INTO 
-	PieList (pie_id, name, primary_ingredient)
+	PieList (pie_id, pie_name, primary_ingredient)
 VALUES 
 	('PID-00001', 'Apple Pie', 'Apples'),
 	('PID-00002', 'Rhubarb Pie', 'Rhubarb'),
@@ -37,14 +45,15 @@ VALUES
 SELECT * FROM PieList;
 
 CREATE TABLE BakeryInventory (
-	`name` varchar(45) NOT NULL,
-    `id` varchar(45) NOT NULL,
-    `price` double NOT NULL,
-    `stock` int NOT NULL
+	dessert_name varchar(45) PRIMARY KEY NOT NULL,
+    dessert_id varchar(45) NOT NULL,
+    price float NOT NULL,
+    stock int NOT NULL
 );
 
+
 INSERT INTO 
-	BakeryInventory (name, id, price, stock)
+	BakeryInventory (dessert_name, dessert_id, price, stock)
 VALUES 
 	('Apple Pie', 'PID-00001', 24.99, 12),
     ('Rhubarb Pie', 'PID-00002', 28.99, 8),

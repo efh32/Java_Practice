@@ -1,20 +1,25 @@
+package com.BakeryPackage;
+
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+
 import javax.persistence.*;
 import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 public class HibernateDemo1 {
 
-    private DataSource getDataSource() {
+    private DataSource getDataSource() throws SQLException {
         final PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setDatabaseName("CakeList");
-        dataSource.setUser("root");
+        //dataSource.setDatabaseName("com.BakeryPackage.CakeList");
+        dataSource.setUser("postgres");
         dataSource.setPassword("66hizzy8989!#");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/?user=root");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/bakery");
         return dataSource;
     }
 
@@ -38,32 +43,40 @@ public class HibernateDemo1 {
         return em.getObject();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         HibernateDemo1 hbDemo = new HibernateDemo1();
         DataSource dataSource = hbDemo.getDataSource();
         Properties properties = hbDemo.getProperties();
         EntityManagerFactory entityManagerFactory = hbDemo.entityManagerFactory(dataSource, properties);
         EntityManager em = entityManagerFactory.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        Cake ck = new Cake();
-        ck.setID("ID-00039");
-        ck.setName("Burnt Almond Cake");
-        ck.setDescription("White cake coated with toasted Almonds");
-        ck.setPrice(50);
-        ck.setStock(8);
-        em.merge(ck);
-        tx.commit();
+
+
+
+
+        PersistenceUnitUtil unitUtil = entityManagerFactory.getPersistenceUnitUtil();
+//        insertToStudent(em);
+        //getStudentById(em);
+        List<CakeList> cList = em.createQuery("select name from com.BakeryPackage.CakeList").getResultList();
+        CakeList c = cList.get(0);
+        System.out.println("**************************************");
+        System.out.println("class is loaded : " + unitUtil.isLoaded(c));
+//        System.out.println("collection is loaded : " + unitUtil.isLoaded(t, "teacher_students"));
+//        List<Teacher_Student> teacher_students = t.getTeacher_students();
+//        System.out.println("collection is loaded : " + unitUtil.isLoaded(teacher_students, "teacher_students"));
+//        System.out.println(teacher_students);
+//        System.out.println("collection is loaded : " + unitUtil.isLoaded(teacher_students, "teacher_students"));
+//        System.out.println("**************************************");
+
 
         //Query
-        Query query = em.createQuery("select * from CakeList");
-        List<CakeList> ckList = (CakeList)query.getResultList();
-        System.out.println(ckList);
+        Query query = em.createQuery("select * from com.BakeryPackage.CakeList");
+        //List<CakeList> ckList = (CakeList)query.getResultList();
+        //System.out.println(ckList);
 
 /*
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<CakeList> query = builder.createQuery(CakeList.class);
-        Root<CakeList> from = query.from(CakeList.class);
+        CriteriaQuery<com.BakeryPackage.CakeList> query = builder.createQuery(com.BakeryPackage.CakeList.class);
+        Root<com.BakeryPackage.CakeList> from = query.from(com.BakeryPackage.CakeList.class);
         Predicate exp1 = builder.equal(from.get("name"), "German Chocolate Cake");
         Predicate exp2 = null;
         if(!"xx".equals(null)) {
@@ -77,10 +90,36 @@ public class HibernateDemo1 {
  */
     }
 
+    private static void insertToCakeList(EntityManager em) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        CakeList ck = new CakeList();
+        ck.setID("CID-00004");
+        ck.setName("Burnt Almond Cake");
+        ck.setDescription("White cake coated with toasted Almonds");
+        em.merge(ck);
+        tx.commit();
+    }
+
+    private static void insertToPieList(EntityManager em) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        PieList pie = new PieList();
+        pie.setID("PID-00005");
+        pie.setName("Coconut Cream Pie");
+        pie.setPrimaryIngredient("Coconuts");
+        em.merge(pie);
+        tx.commit();
+    }
+
+    private static void getCakeByName(EntityManager em) {
+        Query query = em.createQuery("select s from Student s left join fetch s.teacher_students ts where s.id = ?1");
+        query.setParameter(1, "17");
+        CakeList ck = (CakeList)query.getSingleResult();
+        System.out.println(ck);
+    }
+
 
 
 }
 
-test {
-    System.out.println(ckList);
-}

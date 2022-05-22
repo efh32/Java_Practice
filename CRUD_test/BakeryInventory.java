@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "com.BakeryPackage.CakeList")
 @Data
-public class CakeList {
+public class BakeryInventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -14,17 +14,21 @@ public class CakeList {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "stock")
+    private int stock;
+
+    @Column(name = "price")
+    private float price;
 
 
-    public CakeList() {
+    public BakeryInventory() {
     }
 
-    public CakeList(String id, String name, String description){
+    public BakeryInventory(String id, String name, int stock, float price){
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.stock = stock;
+        this.price = price;
     }
 
     public String getId() {
@@ -43,12 +47,16 @@ public class CakeList {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public void setStock(int stock){ this.stock = stock; }
+
+    public int getStock() {
+        return this.stock;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(float price){ this.price = price; }
+
+    public float getPrice() {
+        return this.price;
     }
 
 
