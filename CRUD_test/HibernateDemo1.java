@@ -56,20 +56,15 @@ public class HibernateDemo1 {
         PersistenceUnitUtil unitUtil = entityManagerFactory.getPersistenceUnitUtil();
 //        insertToStudent(em);
         //getStudentById(em);
-        List<CakeList> cList = em.createQuery("select name from com.BakeryPackage.CakeList").getResultList();
-        CakeList c = cList.get(0);
+        List<Cakes> cList = em.createQuery("select name from CakeList").getResultList();
+        Cakes c = cList.get(0);
         System.out.println("**************************************");
         System.out.println("class is loaded : " + unitUtil.isLoaded(c));
-//        System.out.println("collection is loaded : " + unitUtil.isLoaded(t, "teacher_students"));
-//        List<Teacher_Student> teacher_students = t.getTeacher_students();
-//        System.out.println("collection is loaded : " + unitUtil.isLoaded(teacher_students, "teacher_students"));
-//        System.out.println(teacher_students);
-//        System.out.println("collection is loaded : " + unitUtil.isLoaded(teacher_students, "teacher_students"));
-//        System.out.println("**************************************");
+
 
 
         //Query
-        Query query = em.createQuery("select * from com.BakeryPackage.CakeList");
+        Query query = em.createQuery("select * from Cakes");
         //List<CakeList> ckList = (CakeList)query.getResultList();
         //System.out.println(ckList);
 
@@ -90,10 +85,10 @@ public class HibernateDemo1 {
  */
     }
 
-    private static void insertToCakeList(EntityManager em) {
+    private static void insertToCakes(EntityManager em) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        CakeList ck = new CakeList();
+        Cakes ck = new Cakes();
         ck.setID("CID-00004");
         ck.setName("Burnt Almond Cake");
         ck.setDescription("White cake coated with toasted Almonds");
@@ -101,22 +96,31 @@ public class HibernateDemo1 {
         tx.commit();
     }
 
-    private static void insertToPieList(EntityManager em) {
+    private static void insertToBakeries(EntityManager em) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        PieList pie = new PieList();
-        pie.setID("PID-00005");
-        pie.setName("Coconut Cream Pie");
-        pie.setPrimaryIngredient("Coconuts");
-        em.merge(pie);
+        Bakeries bk = new Bakeries();
+        bk.setId("BID-00005");
+        bk.setName("Coconut Cafe");
+        bk.setCity("Plano");
+        bk.setState("Texas");
+        em.merge(bk);
         tx.commit();
     }
 
+
     private static void getCakeByName(EntityManager em) {
-        Query query = em.createQuery("select s from Student s left join fetch s.teacher_students ts where s.id = ?1");
+        Query query = em.createQuery("select c from Cake c left join fetch c.cakeInventoryList ts where c.id = ?1");
         query.setParameter(1, "17");
         CakeList ck = (CakeList)query.getSingleResult();
         System.out.println(ck);
+    }
+
+    private static void getBakeryByName(EntityManager em) {
+        Query query = em.createQuery("select b from Bakery b left join fetch b.bakeryInventoryList ts where b.id = ?1");
+        query.setParameter(1, "bid-00077");
+        Bakeries bk = (Bakeries) query.getSingleResult();
+        System.out.println(bk);
     }
 
 
