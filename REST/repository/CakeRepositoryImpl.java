@@ -1,15 +1,10 @@
 package repository;
 
-
-//import com.example.java92022.week4.day17.domain.Employee;
 import domain.Cakes;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -20,13 +15,14 @@ public class CakeRepositoryImpl implements CakesRepository {
 
     @PostConstruct
     public void init() {
-        Employee employee1 = new Employee("Tom", "1", new Date(), new Date(), true);
-        Employee employee2 = new Employee("Jerry", "2", new Date(), new Date(), true);
-        employeeMap.put(employee1.getId(), employee1);
-        employeeMap.put(employee2.getId(), employee2);
+        Cakes cake1 = new Cakes("CID-00020", "Raspberry CheeseCake", "Made with cream cheese and raspberries",
+                new ArrayList<>(), new Date(), new Date(), true);
 
-        Cakes cake1 = new Cakes();
-        Cakes cake2 = new Cakes();
+        Cakes cake2 = new Cakes("CID-00022", "Ice Cream cake", "Cake made with ice cream",
+                new ArrayList<>(), new Date(), new Date(), true);
+
+        cakesMap.put(cake1.getId(), cake1);
+        cakesMap.put(cake2.getId(), cake2);
     }
 
     @Override
