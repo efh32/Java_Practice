@@ -1,43 +1,45 @@
 package service;
 
-import domain.Cakes;
-import domain.CakesDTO;
+import domain.BakeryInventory;
+import domain.BakeryInventoryDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
-import repository.CakesRepository;
+import repository.BakeryInventoryRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BakeryInventoryServiceImpl {
+public class BakeryInventoryServiceImpl implements BakeryInventoryService{
     private final Log logger = LogFactory.getLog(BakeryInventoryServiceImpl.class);
     private final BakeryInventoryRepository bakeryInventoryRepository;
     private final RestTemplate restTemplate;
 
 
     @Autowired
-    public CakesServiceImpl(CakesRepository cakesRepository, RestTemplate restTemplate) {
-        this.cakesRepository = cakesRepository;
+    public BakeryInventoryServiceImpl(BakeryInventoryRepository bakeryInventoryRepository, RestTemplate restTemplate) {
+        this.bakeryInventoryRepository = bakeryInventoryRepository;
         this.restTemplate = restTemplate;
     }
 
     @Override
-    public CakesDTO getCakesById(String id) {
-        Cakes cake = cakesRepository.getCakesByID(id);
-        if(cake == null) {
-            throw new RuntimeException(id + ": cake is null");
+    public BakeryInventoryDTO getBakeryInventoryById(String id) {
+
+        BakeryInventory bakeryInventory = bakeryInventoryRepository.getBakeryInventoryById(id);
+
+        if(bakeryInventory == null) {
+            throw new RuntimeException(id + ": bakery inventory is null");
         }
-        return new CakesDTO(cake);
+        return new BakeryInventoryDTO(bakeryInventory);
     }
 
     @Override
-    public List<CakesDTO> getAllCakes() {
-        return cakesRepository
-                .getAllCakes()
+    public List<BakeryInventoryDTO> getAllBakeryInventory() {
+        return bakeryInventoryRepository
+                .getAllBakeryInventory()
                 .stream()
-                .map(e -> new CakesDTO(e))
+                .map(e -> new BakeryInventoryDTO(e))
                 .collect(Collectors.toList());
     }
 }

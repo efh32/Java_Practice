@@ -32,7 +32,7 @@ public class BakeriesServiceImpl implements BakeriesService {
     public BakeriesDTO getBakeriesById(String id) {
         Bakeries bakery = bakeriesRepository.getBakeriesByID(id);
         if(bakery == null) {
-            throw new RuntimeException(id + ": cake is null");
+            throw new RuntimeException(id + ": bakeries is null");
         }
         return new BakeriesDTO(bakery);
     }
