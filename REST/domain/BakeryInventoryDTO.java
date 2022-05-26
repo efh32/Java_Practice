@@ -17,7 +17,7 @@ public class BakeryInventoryDTO {
     private String dessertId;
     private String bakeryId;
 
-    public BakeryInventoryDTO(BakeryInventoryDTO bakeryInventory){
+    public BakeryInventoryDTO(BakeryInventory bakeryInventory){
         this.bakeryInventoryId = bakeryInventory.getBakeryInventoryId();
         this.dessertName = bakeryInventory.getDessertName();
         this.dessertId = bakeryInventory.getDessertId();
